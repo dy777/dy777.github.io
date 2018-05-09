@@ -139,12 +139,12 @@
 
 <body>
 <div class="contenner">
-    <div class="logo">
+    <!-- <div class="logo">
         <div class="name">SUPER DICTIONARY</div>
         <div class="img logo_rotate">
             <img src="img/logo.png" alt="">
         </div>
-    </div>
+    </div> -->
     <div class="noExtension hide" id="noExtension">
         NOTE: Please install <a target="_blank" href="https://github.com/ChengOrangeJu/WebExtensionWallet">WebExtensionWallet</a>  to use SUPER DICTIONARY
     </div>
@@ -169,11 +169,30 @@
         <input type="text" id="add_value" placeholder="input contents for your keyword">
         <button id="push">submit</button>
     </div>
+
+    <div class="secret-wrap" id="app" v-clock>
+        <div class="item" v-for="(s,index) in list">
+            <div class="img">
+                <img src="img/foot.png" alt="" />
+            </div>
+            <div class="user">
+                <div class="info">
+                    <div>
+                        游客{{index+1}} <span class="time" v-html="formatDateTime(s.value)"></span>
+                    </div>
+                    <div class="reply" @click="reply">留言</div>
+                </div>
+                <div class="content" v-html="getContent(s.value)">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src=lib/jquery-3.3.1.min.js></script>
 <script src=lib/nebPay.js></script>
 <script src=lib/bootstrap-4.0.0-dist/js/bootstrap.min.js></script>
 <script src=lib/nebulas.js></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script>
 
     "use strict";
@@ -197,6 +216,79 @@
         Account = nebulas.Account,
         neb = new nebulas.Neb();
     neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
+
+    getWish(0);
+    // 初始化秘密
+    function getWish(page) {
+
+        var from = Account.NewAccount().getAddressString();
+        var to = dappAddress;
+        var value = "0";
+        var nonce = "0";
+        var gas_price = "1000000";
+        var gas_limit = "2000000";
+        var callFunction = "get";
+        var callArgs = "[\"nubulas\"]"; //in the form of ["args"]
+        var contract = {
+            "function": callFunction,
+            "args": callArgs
+        }
+        neb.api.call(from,to,value,nonce,gas_price,gas_limit,contract).then(function (resp) {
+            abSearch(resp)
+        });
+    }
+
+    //return of search,
+    function abSearch(resp) {
+        if(!resp.result) return;
+        var result = eval(JSON.parse(resp.result));
+        if(result !== 'null') {
+            Vue.set(app, 'list', result)
+        }
+    }
+
+    var app = new Vue({
+                    el: '#app',
+                    data: {
+                        list: []
+                    },
+                    methods: {
+                        formatDateTime: function(theDate) {
+                            if(!theDate || theDate == null || theDate.split(':').length != 2) {
+                                return ' ';
+                            }
+                            theDate = theDate.split(':')[1];
+                            if(theDate == '') {
+                                return '';
+                            } 
+                            var date = new Date();
+                            date.setTime(theDate);
+                            var y = date.getFullYear();
+                            var m = date.getMonth() + 1;
+                            m = m < 10 ? ('0' + m) : m;
+                            var d = date.getDate();
+                            d = d < 10 ? ('0' + d) : d;
+                            var h = date.getHours();
+                            h = h < 10 ? ('0' + h) : h;
+                            var minute = date.getMinutes();
+                            var second = date.getSeconds();
+                            minute = minute < 10 ? ('0' + minute) : minute;
+                            second = second < 10 ? ('0' + second) : second;
+                            return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+                        },
+                        getContent:function(text){
+                            if(text){
+                                return text.split(':')[0];
+                            }else{
+                                return ' ';
+                            }
+                            
+                        },
+                        reply:function(){
+                            layer.msg('玩命开发中...');
+                        }
+                    }
+                })
 
     // 搜索功能: 查找Super-Dictionary 中有没有该词条
     $("#search").click(function(){
