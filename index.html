@@ -8,8 +8,11 @@
     <meta name="x5-fullscreen" content="true">
     <meta name="full-screen" content="yes">
 
-    <title>Super Dictionary</title>
+    <title>Activity</title>
     <link rel="stylesheet" href="lib/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/mdui.min.css">
+    <script src="js/mdui.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="css/style-mine.css" /> -->
     <style>
         .logo {
             width: 60%;
@@ -35,10 +38,20 @@
             height: 100%;
         }
 
+        .title{
+            text-align: center;
+            height: 60px;
+            background-color: #32cdc4;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: .02em;
+            color: #fff!important;
+        }
+
         .search {
             width: 80%;
-            height: 100px;
-            margin: auto;
+            height: 50px;   
+            margin-top: 10px;                
         }
 
         .noExtension {
@@ -50,15 +63,14 @@
 
         #search_value {
             width: 80%;
-            height: 50px;
+            height: 30px;
             box-shadow: 3px 5px grey, 1px 1px #333;
         }
 
         .search button {
             width: 18%;
-            height: 50px;
-            margin-left: 6px;
-            box-shadow: 3px 5px grey, 1px 1px #333;
+            height: 30px;
+            margin: auto;           
         }
 
         @keyframes rotate {
@@ -85,26 +97,25 @@
         }
 
         .add_banner{
-            width: 80%;
-            height: 100px;
-            margin: auto;
+            width: 60%;
+            height: 30px;
         }
 
         .add_banner input{
             width: 80%;
-            height: 50px;
+            height: 30px;
             box-shadow: 3px 5px grey, 1px 1px #333;
         }
 
         .add_banner button{
             width: 18%;
-            height: 50px;
+            height: 30px;
             margin-left: 6px;
             box-shadow: 3px 5px grey, 1px 1px #333;
         }
 
         #search_banner{
-            font-size: 50px;
+            font-size: 30px;
             border-bottom: 1px solid black;
         }
 
@@ -118,8 +129,9 @@
         }
 
         .contenner{
-            background: url("img/bg.jpg");
+            background: url("../img/bg.jpg");
             height: 1500px;
+            background-color: #ebfad7;
         }
 
         .author{
@@ -143,7 +155,6 @@
         .content{
             width:100%;
             display: flex;
-            margin-left: 200px;
             justify-content: space-between;
             color: #007bff;
         }
@@ -151,92 +162,144 @@
         .info{
             width:100%;
             display: flex;
-            margin-left: 200px;
             justify-content: space-between;
             color: #007bff;
+        }
+
+        .secret-wrap .item{
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            min-height: 80px;
+            padding:10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        /*.secret-wrap .item:first-child{
+            border-bottom: none;
+        }
+        .secret-wrap .item:nth-last-child(2){
+            border-top: none;
+        }*/
+        .secret-wrap .item .img{
+            height: 60px;
+            width:60px;
+            float: left;
+        }
+        .secret-wrap .item .img img{
+            width:100%;
+            border-radius: 50%;
+        }
+
+        .secret-wrap .item .user{
+            width: 100%;
+            float: left;
+            padding-left: 30px;
+        }
+
+        .secret-wrap .item .user .time{
+            font-size: 12px;
+            color: #aaa;
+            padding-left: 5px;
         }
     </style>
 </head>
 
 <body>
 <div class="contenner">
-    <!-- <div class="logo">
-        <div class="name">SUPER DICTIONARY</div>
-        <div class="img logo_rotate">
-            <img src="img/logo.png" alt="">
+    <div class="title">
+        <span class="mdui-typo-title">活动信息</span>
+    </div>
+    <div class="mdui-container">     
+        <div class="noExtension hide" id="noExtension">
+            NOTE: Please install <a target="_blank" href="https://github.com/ChengOrangeJu/WebExtensionWallet">WebExtensionWallet</a>  to use ACTIVITY
         </div>
-    </div> -->
-    <div class="noExtension hide" id="noExtension">
-        NOTE: Please install <a target="_blank" href="https://github.com/ChengOrangeJu/WebExtensionWallet">WebExtensionWallet</a>  to use SUPER DICTIONARY
-    </div>
-    <div class="search">
-        <input id="search_value" type="text">
-        <button id=search>search</button>
-    </div>
-
-    <div class="result_success hide">
-        <div id=search_banner></div>
-        <p id=search_result> wait for content </p>
-        <div class="author">
-            <i><p> Author:</p> <p id=search_result_author> dasdajkajksdhjasdkjahdkjad</p></i>
+        <div class="search">
+            <input id="search_value" type="text">
+            <button id=search>查询</button>
         </div>
-    </div>
 
-    <div class="add_banner">
-        <input type="text" id="add_value" placeholder="input contents for your keyword">
-        <button id="push">submit</button>
-    </div>
-
-    <div class="secret-wrap" id="app" v-clock>
-        <div class="item" v-for="(s,index) in list">
-            <!-- <div class="img">
-                <img src="img/foot.png" alt="" />
-            </div> -->
-            <div class="user">
-                <div class="info">
-                    <div>
-                        游客{{index+1}} <span class="time" v-html="getContent(s)"></span>
-                    </div>
-                    <div class="reply" @click="reply">留言</div>
-                </div>
-                <div class="content" v-html="getContent(s)">
-                </div>
+        <div class="result_success hide">
+            <div id=search_banner></div>
+            <p id=search_result> wait for content </p>
+            <div class="author">
+                <!-- <i><p> Author:</p> <p id=search_result_author> dasdajkajksdhjasdkjahdkjad</p></i> -->
             </div>
         </div>
-    </div>
+
+        <div style="height: 140px">
+            <div class="add_banner hide">
+                <input type="text" id="add_name" placeholder="活动名称">       
+            </div>
+            <div class="add_banner  hide">
+                <input type="text" id="add_address" placeholder="活动地址">
+            </div>
+            <div class="add_banner  hide">
+                <input type="text" id="add_dateTime" placeholder="活动时间">
+                
+            </div>
+            <button id="add">添加活动</button>
+            <button id="push" class="mdui-btn mdui-btn-raised mdui-ripple hide">提交</button>   
+        </div>
+        <div class="secret-wrap" id="app" v-clock>
+            <div class="inp-wrap">
+
+                <div>
+                    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-btn-dense" id="prePage">上一页</button>
+                    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-btn-dense" id="nextPage">下一页</button>
+                </div>                                       
+            </div>
+            <div class="item" v-for="(s,index) in list">
+                <!-- <div class="img">
+                    <img src="img/foot.png" alt="" />
+                </div> -->
+                <div class="user">
+                    <div class="content" v-html="getContent(s.value.name)" style="font-size: 20px;">
+                    </div>
+                    <div class="info">
+                        <div>
+                            {{s.value.address}} <span class="time" v-html="getContent(s.value.dateTime)"></span>
+                        </div>
+                        <div class="reply" @click="reply">评价</div>
+                    </div>                   
+                </div>
+            </div>
+            <div class="link" style="text-align: center;">
+                使用<a href="https://nebulas.io/">星云链</a>驱动，<a href="https://incentive.nebulas.io/cn/signup.html?invite=9USqO">点击参与星云激励计划</a>
+            </div>
+        </div>
+    </div>       
 </div>
 <script src=lib/jquery-3.3.1.min.js></script>
 <script src=lib/nebPay.js></script>
 <script src=lib/bootstrap-4.0.0-dist/js/bootstrap.min.js></script>
 <script src=lib/nebulas.js></script>
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
 <script>
 
     "use strict";
 
-
-    // $("#search_value").attr("disabled",true)
-    // $("#search").attr("disabled",true)
-    // //to check if the extension is installed
-    // //if the extension is installed, var "webExtensionWallet" will be injected in to web page
-    // if(typeof(webExtensionWallet) === "undefined"){
-    //     //alert ("Extension wallet is not installed, please install it first.")
-    //     $("#noExtension").removeClass("hide")
-    // }else{
-    //     $("#search_value").attr("disabled",false)
-    //     $("#search").attr("disabled",false)
-    // }
-
-    var dappAddress = "n1mWj179V9k1mYe36FWxBbjq73X54JM74m2";
+    //var dappAddress = "n1mWj179V9k1mYe36FWxBbjq73X54JM74m2";
+    //var dappAddress = "n1twEb6fNncVFh7q9Duyetg2wAaL5sPSJok";
+    var dappAddress = "n1eHK6awWJvw76hD9gwNy6QxRXgJdM6ut8N";
 
     var nebulas = require("nebulas"),
         Account = nebulas.Account,
         neb = new nebulas.Neb();
+    var page = 0;
     neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
 
-    getWish(0);
+    //检查扩展是否已安装
+    //如果安装了扩展，var“webExtensionWallet”将被注入到web页面中1
+    if(typeof(webExtensionWallet) === "undefined") {
+        //alert ("扩展钱包未安装，请先安装.")
+        $("#noExtension").show();
+    }
+
+    getList(0);
     // 初始化秘密
-    function getWish(page) {
+    function getList(page) {
 
         var from = Account.NewAccount().getAddressString();
         var to = dappAddress;
@@ -244,8 +307,8 @@
         var nonce = "0";
         var gas_price = "1000000";
         var gas_limit = "2000000";
-        var callFunction = "get";
-        var callArgs = "[\"nubulas\"]"; //in the form of ["args"]
+        var callFunction = "forEach";
+        var callArgs = "[10," + page * 10 + "]"; //in the form of ["args"]
         var contract = {
             "function": callFunction,
             "args": callArgs
@@ -265,43 +328,43 @@
     }
 
     var app = new Vue({
-                    el: '#app',
-                    data: {
-                        list: []
-                    },
-                    methods: {
-                        formatDateTime: function(theDate) {
-                            if(!theDate || theDate == null || theDate.split(':').length != 2) {
-                                return ' ';
-                            }
-                            theDate = theDate.split(':')[1];
-                            if(theDate == '') {
-                                return '';
-                            } 
-                            var date = new Date();
-                            date.setTime(theDate);
-                            var y = date.getFullYear();
-                            var m = date.getMonth() + 1;
-                            m = m < 10 ? ('0' + m) : m;
-                            var d = date.getDate();
-                            d = d < 10 ? ('0' + d) : d;
-                            var h = date.getHours();
-                            h = h < 10 ? ('0' + h) : h;
-                            var minute = date.getMinutes();
-                            var second = date.getSeconds();
-                            minute = minute < 10 ? ('0' + minute) : minute;
-                            second = second < 10 ? ('0' + second) : second;
-                            return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
-                        },
-                        getContent:function(text){
-                            return text;
-                            
-                        },
-                        reply:function(){
-                            layer.msg('玩命开发中...');
-                        }
-                    }
-                })
+        el: '#app',
+        data: {
+            list: []
+        },
+        methods: {
+            formatDateTime: function(theDate) {
+                if(!theDate || theDate == null || theDate.split(':').length != 2) {
+                    return ' ';
+                }
+                theDate = theDate.split(':')[1];
+                if(theDate == '') {
+                    return '';
+                } 
+                var date = new Date();
+                date.setTime(theDate);
+                var y = date.getFullYear();
+                var m = date.getMonth() + 1;
+                m = m < 10 ? ('0' + m) : m;
+                var d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                var h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                var minute = date.getMinutes();
+                var second = date.getSeconds();
+                minute = minute < 10 ? ('0' + minute) : minute;
+                second = second < 10 ? ('0' + second) : second;
+                return y + '-' + m + '-' + d + ' ' + h + ':' + minute + ':' + second;
+            },
+            getContent:function(text){
+                return text;
+                
+            },
+            reply:function(){
+                layer.msg('功能未开通');
+            }
+        }
+    })
 
     // 搜索功能: 查找Super-Dictionary 中有没有该词条
     $("#search").click(function(){
@@ -331,54 +394,34 @@
 
     //return of search,
     function cbSearch(resp) {
-        var result = resp.result    ////resp is an object, resp.result is a JSON string
+        var obj = resp.result    ////resp is an object, resp.result is a JSON string
         console.log("return of rpc call: " + JSON.stringify(result))
 
-        if (result === 'null'){
-            $(".add_banner").addClass("hide");
-            $(".result_success").addClass("hide");
-
-            $("#result_faile_add").text($("#search_value").val())
-
-            $(".result_faile").removeClass("hide");
+        if (obj === 'null'){
+            
+            layer.msg('没有查询到该活动');
         } else{
             //if result is not null, then it should be "return value" or "error message"
             try{
-                result = JSON.parse(result)
+                var obj = eval(JSON.parse(obj))
             }catch (err){
                 //result is the error message
             }
-
-            if (!!result.key){      //"return value"
-                $(".add_banner").addClass("hide");
-                $(".result_faile").addClass("hide");
-
-                $("#search_banner").text($("#search_value").val())
-                $("#search_result").text(result.value)
-                $("#search_result_author").text(result.author)
-
-                $(".result_success").removeClass("hide");
-            } else {        //"error message"
-                $(".add_banner").addClass("hide");
-                $(".result_faile").addClass("hide");
-
-                $("#search_banner").text($("#search_value").val())
-                $("#search_result").text(result)
-                $("#search_result_author").text("")
-
-                $(".result_success").removeClass("hide");
+            var result = [];
+            var temp={
+                index:0,
+                value:obj
             }
-
+            result.push(temp);
+            Vue.set(app, 'list', result);
         }
-
     }
 
     // 添加信息功能: 像super-dictionary 中添加词条
     $("#add").click(function() {
-        $(".result_faile").addClass("hide");
         $(".add_banner").removeClass("hide");
-
-        $("#add_value").val("")
+        $("#push").removeClass("hide");
+        $("#add").addClass("hide");
     })
 
     var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
@@ -390,15 +433,15 @@
         var to = dappAddress;
         var value = "0";
         var callFunction = "save"
-        var callArgs = "[\"" + $("#search_value").val() + "\",\"" + $("#add_value").val() + "\"]"
+        var callArgs = "[\"" + $("#add_name").val() + "\",\"" + $("#add_address").val() + "\",\"" + $("#add_dateTime").val() + "\"]"
 
         serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
             listener: cbPush        //设置listener, 处理交易返回信息
         });
 
-        intervalQuery = setInterval(function () {
+        /*intervalQuery = setInterval(function () {
             funcIntervalQuery();
-        }, 5000);
+        }, 5000);*/
     });
 
     var intervalQuery
@@ -421,6 +464,14 @@
     function cbPush(resp) {
         console.log("response of push: " + JSON.stringify(resp))
     }
+
+    $('#prePage').click(function() {
+        getList(page == 0 ? 0 : page - 1);
+    });
+
+    $('#nextPage').click(function() {
+        getList(page + 1);
+    });
 
 </script>
 </body>
