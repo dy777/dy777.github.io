@@ -114,6 +114,7 @@
             -webkit-margin-before: 3px;
             margin-left: 30%;
             cursor: pointer;
+            background-color: #ff6e40;
         }
 
         #search_banner{
@@ -213,7 +214,7 @@
         <div class="search">
             <input id="search_value" type="text">
             <button id=search class="mdui-btn mdui-btn-raised mdui-ripple ">找活动</button>
-            <button id="add" class="mdui-btn mdui-btn-raised mdui-ripple ">添加活动</button>
+            <button id="add" class="mdui-btn mdui-btn-raised mdui-ripple ">分享活动</button>
         </div>
 
         <div class = "inputForm hide" style="height: 140px">
@@ -288,9 +289,9 @@
     "use strict";
 
     $('#dateTimePicker input').datepicker({
+        format: 'yyyy-mm-dd',
     });
-    //var dappAddress = "n1mWj179V9k1mYe36FWxBbjq73X54JM74m2";
-    //var dappAddress = "n1twEb6fNncVFh7q9Duyetg2wAaL5sPSJok";
+
     var dappAddress = "n1eHK6awWJvw76hD9gwNy6QxRXgJdM6ut8N";
 
     var nebulas = require("nebulas"),
@@ -439,6 +440,27 @@
     var serialNumber
 
     $("#push").click(function() {
+
+        if($("#add_name").val() == '') {
+            layer.alert('活动名称不能为空！');
+            return;
+        } else if($("#add_name").val() > 100) {
+            layer.alert('活动名称太长了！');
+            return;
+        }
+
+        if($("#add_address").val() == '') {
+            layer.alert('活动地址不能为空！');
+            return;
+        } else if($("#add_address").val() > 100) {
+            layer.alert('活动地址太长了！');
+            return;
+        }
+
+        if($("#add_name").val() == '') {
+            layer.alert('活动时间不能为空！');
+            return;
+        }
 
         var to = dappAddress;
         var value = "0";
