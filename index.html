@@ -292,13 +292,14 @@
         format: 'yyyy-mm-dd',
     });
 
-    var dappAddress = "n1eHK6awWJvw76hD9gwNy6QxRXgJdM6ut8N";
+    //var dappAddress = "n1eHK6awWJvw76hD9gwNy6QxRXgJdM6ut8N";
+    var dappAddress = "n1u2L5ERm7kWHZv4Qp1YWTPj3heoAZqo8Bk";
 
     var nebulas = require("nebulas"),
         Account = nebulas.Account,
         neb = new nebulas.Neb();
     var page = 0;
-    neb.setRequest(new nebulas.HttpRequest("https://testnet.nebulas.io"));
+    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
 
     //检查扩展是否已安装
     //如果安装了扩展，var“webExtensionWallet”将被注入到web页面中1
